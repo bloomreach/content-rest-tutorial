@@ -37,7 +37,29 @@ hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
     DocumentsService.getDocumentById($routeParams.uuid).$promise.then(function(
         response) {
       $scope.document = response;
+
+      // resolve internal links
+      $scope.content = $scope.resolveLinks(response);
+
+      // TODO
+      // resolve images
+
     });
   }
+
+  $scope.resolveLinks = function(response) {
+    var someElement = document.createElement('div');
+    someElement.innerHTML = response.items['myhippoproject:content'].content;
+    var links = someElement.querySelectorAll('a[data-hippo-link]');
+    for (var index = 0; index < links.length; index++) {
+      if (response.items['myhippoproject:content'].links[links[index]
+          .getAttribute('data-hippo-link')]) {
+        var uuid = response.items['myhippoproject:content'].links[links[index]
+            .getAttribute('data-hippo-link')].id;
+        links[index].href = '#/' + uuid;
+      }
+    }
+    return someElement.innerHTML;
+  };
 
 });
