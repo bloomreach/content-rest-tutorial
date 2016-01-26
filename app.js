@@ -1,12 +1,16 @@
 'use strict';
 
-var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource' ]);
+var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource',
+    'ngSanitize' ]);
 
 hippoRestApp.constant('apiPrefix', 'http://localhost:8080/site/api/');
 
 hippoRestApp.config(function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl : 'document-list.html',
+    controller : 'DocumentsController'
+  }).when('/:uuid', {
+    templateUrl : 'detail.html',
     controller : 'DocumentsController'
   }).otherwise('/');
 });
@@ -15,15 +19,25 @@ hippoRestApp.factory('DocumentsService', function($resource, apiPrefix) {
   return {
     getList : function() {
       return $resource(apiPrefix + 'documents/', {}).get();
+    },
+    getDocumentById : function(uuid) {
+      return $resource(apiPrefix + 'documents/' + uuid).get();
     }
   }
 });
 
-hippoRestApp.controller('DocumentsController', function($scope,
+hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
     DocumentsService, apiPrefix) {
 
-  DocumentsService.getList().$promise.then(function(response) {
-    $scope.documents = response;
-  });
+  if (!$routeParams.uuid) {
+    DocumentsService.getList().$promise.then(function(response) {
+      $scope.documents = response;
+    });
+  } else {
+    DocumentsService.getDocumentById($routeParams.uuid).$promise.then(function(
+        response) {
+      $scope.document = response;
+    });
+  }
 
 });

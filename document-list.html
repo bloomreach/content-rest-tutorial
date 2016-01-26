@@ -1,5 +1,6 @@
 <h2>Documents</h2>
 
 <ul>
-  <li ng-repeat="document in documents.items">{{document.name}}</li>
+  <li ng-repeat="document in documents.items"><a
+    href="#/{{document.id}}">{{document.name}}</a></li>
 </ul>
