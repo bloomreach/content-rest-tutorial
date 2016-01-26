@@ -1,5 +1,10 @@
 <h2>Documents</h2>
 
+<form ng-submit="search()">
+  <input type="text" ng-model="query" size="30" placeholder="enter keywords">
+  <input class="btn-primary" type="submit" value="search">
+</form>
+
 <ul>
   <li ng-repeat="document in documents.items"><a
     href="#/{{document.id}}">{{document.name}}</a></li>
