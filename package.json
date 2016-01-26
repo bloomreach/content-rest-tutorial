@@ -6,7 +6,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "live-server"
+    "start": "live-server --port=8081"
   },
   "license": "AP2"
 }
