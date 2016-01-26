@@ -9,3 +9,5 @@
   <li ng-repeat="document in documents.items"><a
     href="#/{{document.id}}">{{document.name}}</a></li>
 </ul>
+
+<uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()"></uib-pagination>

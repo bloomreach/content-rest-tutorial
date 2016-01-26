@@ -1,7 +1,7 @@
 'use strict';
 
 var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource',
-    'ngSanitize' ]);
+    'ngSanitize', 'ui.bootstrap' ]);
 
 hippoRestApp.constant('apiPrefix', 'http://localhost:8080/site/api/');
 
@@ -17,8 +17,10 @@ hippoRestApp.config(function($routeProvider) {
 
 hippoRestApp.factory('DocumentsService', function($resource, apiPrefix) {
   return {
-    getList : function(query) {
+    getList : function(offset, max, query) {
       return $resource(apiPrefix + 'documents/', {
+        _offset : offset,
+        _max : max,
         _query : query
       }).get();
     },
@@ -33,15 +35,25 @@ hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
 
   if (!$routeParams.uuid) {
 
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 6;
     $scope.query = '';
 
     $scope.update = function($scope) {
-      DocumentsService.getList($scope.query).$promise.then(function(response) {
-        $scope.documents = response;
-      });
+      $scope.offset = ($scope.currentPage - 1) * $scope.itemsPerPage;
+      DocumentsService
+          .getList($scope.offset, $scope.itemsPerPage, $scope.query).$promise
+          .then(function(response) {
+            $scope.documents = response;
+            $scope.totalItems = $scope.documents['total'];
+          });
     }
 
     $scope.update($scope);
+
+    $scope.pageChanged = function() {
+      $scope.update($scope);
+    };
 
     $scope.search = function() {
       $scope.update($scope);
@@ -74,6 +86,7 @@ hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
       }
     }
     return someElement.innerHTML;
+
   };
 
 });
