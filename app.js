@@ -1,7 +1,6 @@
 'use strict';
 
-var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource',
-    'ngSanitize', 'ui.bootstrap' ]);
+var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap' ]);
 
 hippoRestApp.constant('apiPrefix', 'http://localhost:8080/site/api/');
 
@@ -30,8 +29,7 @@ hippoRestApp.factory('DocumentsService', function($resource, apiPrefix) {
   }
 });
 
-hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
-    DocumentsService, apiPrefix) {
+hippoRestApp.controller('DocumentsController', function($scope, $routeParams, DocumentsService, apiPrefix) {
 
   if (!$routeParams.uuid) {
 
@@ -41,12 +39,10 @@ hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
 
     $scope.update = function($scope) {
       $scope.offset = ($scope.currentPage - 1) * $scope.itemsPerPage;
-      DocumentsService
-          .getList($scope.offset, $scope.itemsPerPage, $scope.query).$promise
-          .then(function(response) {
-            $scope.documents = response;
-            $scope.totalItems = $scope.documents['total'];
-          });
+      DocumentsService.getList($scope.offset, $scope.itemsPerPage, $scope.query).$promise.then(function(response) {
+        $scope.documents = response;
+        $scope.totalItems = $scope.documents['total'];
+      });
     }
 
     $scope.update($scope);
@@ -60,8 +56,7 @@ hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
     }
 
   } else {
-    DocumentsService.getDocumentById($routeParams.uuid).$promise.then(function(
-        response) {
+    DocumentsService.getDocumentById($routeParams.uuid).$promise.then(function(response) {
       $scope.document = response;
 
       // resolve internal links
@@ -78,10 +73,8 @@ hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
     someElement.innerHTML = response.items['myhippoproject:content'].content;
     var links = someElement.querySelectorAll('a[data-hippo-link]');
     for (var index = 0; index < links.length; index++) {
-      if (response.items['myhippoproject:content'].links[links[index]
-          .getAttribute('data-hippo-link')]) {
-        var uuid = response.items['myhippoproject:content'].links[links[index]
-            .getAttribute('data-hippo-link')].id;
+      if (response.items['myhippoproject:content'].links[links[index].getAttribute('data-hippo-link')]) {
+        var uuid = response.items['myhippoproject:content'].links[links[index].getAttribute('data-hippo-link')].id;
         links[index].href = '#/' + uuid;
       }
     }
