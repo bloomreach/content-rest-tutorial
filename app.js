@@ -1,7 +1,6 @@
 'use strict';
 
-var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource',
-    'ngSanitize' ]);
+var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource', 'ngSanitize' ]);
 
 hippoRestApp.constant('apiPrefix', 'http://localhost:8080/site/api/');
 
@@ -26,16 +25,14 @@ hippoRestApp.factory('DocumentsService', function($resource, apiPrefix) {
   }
 });
 
-hippoRestApp.controller('DocumentsController', function($scope, $routeParams,
-    DocumentsService, apiPrefix) {
+hippoRestApp.controller('DocumentsController', function($scope, $routeParams, DocumentsService, apiPrefix) {
 
   if (!$routeParams.uuid) {
     DocumentsService.getList().$promise.then(function(response) {
       $scope.documents = response;
     });
   } else {
-    DocumentsService.getDocumentById($routeParams.uuid).$promise.then(function(
-        response) {
+    DocumentsService.getDocumentById($routeParams.uuid).$promise.then(function(response) {
       $scope.document = response;
     });
   }
