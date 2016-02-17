@@ -19,8 +19,7 @@ hippoRestApp.factory('DocumentsService', function($resource, apiPrefix) {
   }
 });
 
-hippoRestApp.controller('DocumentsController', function($scope,
-    DocumentsService, apiPrefix) {
+hippoRestApp.controller('DocumentsController', function($scope, DocumentsService, apiPrefix) {
 
   DocumentsService.getList().$promise.then(function(response) {
     $scope.documents = response;
