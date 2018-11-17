@@ -1,7 +1,7 @@
 'use strict';
 
-var hippoRestApp = angular.module('hippoRestApp', []);
+var contentRestApp = angular.module('contentRestApp', []);
 
-hippoRestApp.controller('DocumentsController', function($scope) {
+contentRestApp.controller('DocumentsController', function($scope) {
   $scope.message = "Nothing here yet";
 });
