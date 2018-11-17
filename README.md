@@ -1,2 +1,2 @@
-# hippo-rest-tutorial
-AngularJS-based tutorial app demonstrating Hippo's Content REST API
+# content-rest-tutorial
+AngularJS-based tutorial app demonstrating brXM's Content REST API
