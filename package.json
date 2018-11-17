@@ -1,5 +1,5 @@
 {
-  "name": "hippo-rest-angular",
+  "name": "content-rest-tutorial",
   "private": true,
   "dependencies": {
     "live-server": "^0.9.0"
