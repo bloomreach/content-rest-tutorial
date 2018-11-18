@@ -1,10 +1,10 @@
 'use strict';
 
-var hippoRestApp = angular.module('hippoRestApp', [ 'ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap' ]);
+var contentRestApp = angular.module('contentRestApp', [ 'ngRoute', 'ngResource', 'ngSanitize', 'ui.bootstrap' ]);
 
-hippoRestApp.constant('apiPrefix', 'http://localhost:8080/site/api/');
+contentRestApp.constant('apiPrefix', 'http://localhost:8080/myproject/api/');
 
-hippoRestApp.config(function($routeProvider) {
+contentRestApp.config(function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl : 'document-list.html',
     controller : 'DocumentsController'
@@ -14,7 +14,7 @@ hippoRestApp.config(function($routeProvider) {
   }).otherwise('/');
 });
 
-hippoRestApp.factory('DocumentsService', function($resource, apiPrefix) {
+contentRestApp.factory('DocumentsService', function($resource, apiPrefix) {
   return {
     getList : function(offset, max, query) {
       return $resource(apiPrefix + 'documents/', {
@@ -29,7 +29,7 @@ hippoRestApp.factory('DocumentsService', function($resource, apiPrefix) {
   }
 });
 
-hippoRestApp.controller('DocumentsController', function($scope, $routeParams, DocumentsService, apiPrefix) {
+contentRestApp.controller('DocumentsController', function($scope, $routeParams, DocumentsService, apiPrefix) {
 
   if (!$routeParams.uuid) {
 
@@ -70,11 +70,11 @@ hippoRestApp.controller('DocumentsController', function($scope, $routeParams, Do
 
   $scope.resolveLinks = function(response) {
     var someElement = document.createElement('div');
-    someElement.innerHTML = response.items['myhippoproject:content'].content;
+    someElement.innerHTML = response.items['myproject:content'].content;
     var links = someElement.querySelectorAll('a[data-hippo-link]');
     for (var index = 0; index < links.length; index++) {
-      if (response.items['myhippoproject:content'].links[links[index].getAttribute('data-hippo-link')]) {
-        var uuid = response.items['myhippoproject:content'].links[links[index].getAttribute('data-hippo-link')].id;
+      if (response.items['myproject:content'].links[links[index].getAttribute('data-hippo-link')]) {
+        var uuid = response.items['myproject:content'].links[links[index].getAttribute('data-hippo-link')].id;
         links[index].href = '#/' + uuid;
       }
     }
