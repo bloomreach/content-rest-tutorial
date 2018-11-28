@@ -2,7 +2,7 @@
 
 var contentRestApp = angular.module('contentRestApp', [ 'ngRoute', 'ngResource', 'ngSanitize' ]);
 
-contentRestApp.constant('apiPrefix', 'http://localhost:8080/myproject/api/');
+contentRestApp.constant('apiPrefix', 'http://localhost:8080/site/api/');
 
 contentRestApp.config(function($routeProvider) {
   $routeProvider.when('/', {
